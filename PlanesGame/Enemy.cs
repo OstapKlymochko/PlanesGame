@@ -11,6 +11,7 @@ namespace PlanesGame
 	{
 		Random random = new Random();
 		public int ChanceToShoot { get; set; }
+		public static int movementSpeed = 1;
 		public Enemy(int x): base() 
 		{
 			ChanceToShoot = 2;
@@ -22,10 +23,10 @@ namespace PlanesGame
 		}
 		public override async void move(object sender, EventArgs e)
 		{
-			Form1 f = sender as Form1;
+			GameForm f = sender as GameForm;
 			if(this.Bottom <= f.Height - 50)
 			{
-				this.Top += 1;
+				this.Top += movementSpeed;
 				bool isAbleToShoot = await Task.Run(() =>
 				{
 					if (f.Controls.Contains(this) && random.Next(0, 101) < 3)

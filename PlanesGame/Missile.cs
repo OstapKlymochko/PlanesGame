@@ -16,11 +16,12 @@ namespace PlanesGame
 			this.BorderStyle = BorderStyle.None;
 			this.BackColor = Color.Wheat;
 			this.Size = new Size(5, 5);
+			this.Name = "missile";
 		}
 		public async void move(object sender, EventArgs e)
 		{
 			MissileEventArgs args = e as MissileEventArgs;
-			Form1 f = sender as Form1;
+			GameForm f = sender as GameForm;
 			if (args.Direction == Directions.up && this.Top >= 10)
 			{
 				this.Top -= 10;
@@ -31,30 +32,28 @@ namespace PlanesGame
 				});
 				if (targetEnemies.Count() > 0)
 				{
-					//f.Controls.Remove(targetEnemies);
 					targetEnemies.ToList().ForEach(e => {
 						if (f.Controls.Contains(this))
 						{
+							f.Points += 10;
 							e.Dispose();
 						}
 					});
+					
 					this.Dispose();
 				}
 			}
 			else if (args.Direction == Directions.down && this.Bottom <= f.Height - 40)
 			{
-				this.Top += 10;
+				this.Top += Enemy.movementSpeed + 4;
 				Control player = f.Controls["player"];
-				//player.
-				bool cond = this.Location.Y >= player.Location.Y && this.Location.Y <= player.Location.Y + player.Height && (this.Location.X >= player.Location.X && this.Location.X <= player.Location.X + player.Width);
-					if (cond)
-					{
-						args.timer.Stop();
-						//player.Dispose();
-						f.GameOver();
-					}
-				
-
+				bool cond = player != null ? this.Location.Y >= player.Location.Y && this.Location.Y <= player.Location.Y + player.Height && (this.Location.X >= player.Location.X && this.Location.X <= player.Location.X + player.Width) : false;
+				if (cond)
+				{
+					args.timer.Dispose();
+					//player.Dispose();
+					f.GameOver();
+				}
 			}
 			else
 			{

@@ -22,7 +22,7 @@ namespace PlanesGame
 		}
 		public override void move(object sender, EventArgs e)
 		{
-			Form1 f = sender as Form1;
+			GameForm f = sender as GameForm;
 			KeyEventArgs key = e as KeyEventArgs;
 			if (key.KeyCode == Keys.Left && this.Left >= 10)
 			{
