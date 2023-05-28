@@ -13,7 +13,12 @@ namespace PlanesGame
 			player = new Player(this.Width / 2, this.Height - 200);
 			this.Controls.Add(player);
 		}
-
+		public void GameOver()
+		{
+			GameTimer.Stop();
+			EnemiesAppearance.Stop();
+			this.KeyDown -= this.Form1_KeyDown;
+		}
 		private void Form1_Load(object sender, EventArgs e)
 		{
 			bgStars = new PictureBox[20];
@@ -55,16 +60,15 @@ namespace PlanesGame
 		{
 			this.player.move(this, e);
 		}
-
 		private async void EnemiesAppearance_Tick(object sender, EventArgs e)
 		{
-			Enemy enemy = new Enemy(random.Next(50, this.Width - 50));
+			Enemy enemy = new Enemy(random.Next(50, this.Width - 100));
 			bool acceptableLocation = await Task.Run(() =>
 			{
 				Control[] enemies = this.Controls.Find("enemy", true);
 				foreach (Control existingEnemy in enemies)
 				{
-					double distance = Math.Sqrt(Math.Pow(existingEnemy.Location.X - enemy.Location.X, 2) + Math.Pow(existingEnemy.Location.Y - enemy.Location.Y, 2));
+					double distance = Program.DistanceBetweenTwoPoints(existingEnemy.Location, enemy.Location);
 					if (distance < 100)
 					{
 						return false;
@@ -72,9 +76,9 @@ namespace PlanesGame
 				}
 				return true;
 			});
-			if(acceptableLocation)
+			if (acceptableLocation)
 			{
-				GameTimer.Tick += (sender, e) => enemy.move(this, new EnemieMoveArgs() { FHeight = this.Height });
+				GameTimer.Tick += (sender, e) => enemy.move(this, e);
 				this.Controls.Add(enemy);
 			}
 		}

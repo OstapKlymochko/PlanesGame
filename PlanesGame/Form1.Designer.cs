@@ -29,22 +29,21 @@
 		private void InitializeComponent()
 		{
 			components = new System.ComponentModel.Container();
-			System.Windows.Forms.Timer EnemiesAppearance;
-			GameTimer = new System.Windows.Forms.Timer(components);
 			EnemiesAppearance = new System.Windows.Forms.Timer(components);
+			GameTimer = new System.Windows.Forms.Timer(components);
 			SuspendLayout();
-			// 
-			// GameTimer
-			// 
-			GameTimer.Enabled = true;
-			GameTimer.Interval = 50;
-			GameTimer.Tick += GameTimer_Tick;
 			// 
 			// EnemiesAppearance
 			// 
 			EnemiesAppearance.Enabled = true;
 			EnemiesAppearance.Interval = 1500;
 			EnemiesAppearance.Tick += EnemiesAppearance_Tick;
+			// 
+			// GameTimer
+			// 
+			GameTimer.Enabled = true;
+			GameTimer.Interval = 50;
+			GameTimer.Tick += GameTimer_Tick;
 			// 
 			// Form1
 			// 

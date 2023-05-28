@@ -17,19 +17,48 @@ namespace PlanesGame
 			this.BackColor = Color.Wheat;
 			this.Size = new Size(5, 5);
 		}
-		public void move(object sender, MissileEventArgs e)
+		public async void move(object sender, EventArgs e)
 		{
-			if(e.Direction == Directions.up && this.Top >= 10)
+			MissileEventArgs args = e as MissileEventArgs;
+			Form1 f = sender as Form1;
+			if (args.Direction == Directions.up && this.Top >= 10)
 			{
 				this.Top -= 10;
+				//var targetEnemies = f.Controls.Find("enemy", true).Where(e => Program.DistanceBetweenTwoPoints(e.Location, this.Location) < 100);
+				var targetEnemies = await Task.Run(() =>
+				{
+					return f.Controls.Find("enemy", true).Where(e => Program.DistanceBetweenTwoPoints(e.Location, this.Location) < 100);
+				});
+				if (targetEnemies.Count() > 0)
+				{
+					//f.Controls.Remove(targetEnemies);
+					targetEnemies.ToList().ForEach(e => {
+						if (f.Controls.Contains(this))
+						{
+							e.Dispose();
+						}
+					});
+					this.Dispose();
+				}
 			}
-			else if (e.Direction == Directions.down && this.Bottom <= e.FHeight - 40)
+			else if (args.Direction == Directions.down && this.Bottom <= f.Height - 40)
 			{
 				this.Top += 10;
+				Control player = f.Controls["player"];
+				//player.
+				bool cond = this.Location.Y >= player.Location.Y && this.Location.Y <= player.Location.Y + player.Height && (this.Location.X >= player.Location.X && this.Location.X <= player.Location.X + player.Width);
+					if (cond)
+					{
+						args.timer.Stop();
+						//player.Dispose();
+						f.GameOver();
+					}
+				
+
 			}
 			else
 			{
-				e.timer.Dispose();
+				args.timer.Dispose();
 				this.Dispose();
 			}
 		}
@@ -38,7 +67,6 @@ namespace PlanesGame
 		public class MissileEventArgs : EventArgs
 		{
 			public Directions Direction { get; init; }
-			public int FHeight { get; init; }
 			public Timer timer { get; init; }
 		}
 }

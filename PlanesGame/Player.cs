@@ -22,27 +22,31 @@ namespace PlanesGame
 		}
 		public override void move(object sender, EventArgs e)
 		{
-			Form f = sender as Form;
+			Form1 f = sender as Form1;
 			KeyEventArgs key = e as KeyEventArgs;
 			if (key.KeyCode == Keys.Left && this.Left >= 10)
 			{
-				this.Left -= 10;
+				this.Left -= 20;
 			}
 			if (key.KeyCode == Keys.Right && this.Right <= f.Width - 20)
 			{
-				this.Left += 10;
+				this.Left += 20;
 			}
 			if (key.KeyCode == Keys.Down && this.Bottom <= f.Height - 40)
 			{
-				this.Top += 10;
+				this.Top += 20;
 			}
 			if (key.KeyCode == Keys.Up && this.Top >= 10)
 			{
-				this.Top -= 10;
+				this.Top -= 20;
 			}
 			if (key.KeyCode == Keys.Space)
 			{
-				this.shoot(sender, new PlaneShootArgs() { Direction = Directions.up, Location = this.Location} );
+				this.shoot(f, new PlaneShootArgs() { Direction = Directions.up, Location = this.Location} );
+			}
+			if (f.Controls.Find("enemy", true).Any(e => Program.DistanceBetweenTwoPoints(e.Location, this.Location) < 100))
+			{
+				f.GameOver();
 			}
 		}
 		//public void shoot(object sender)
