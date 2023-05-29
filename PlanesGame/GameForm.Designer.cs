@@ -29,18 +29,14 @@
 		private void InitializeComponent()
 		{
 			components = new System.ComponentModel.Container();
-			EnemiesAppearance = new System.Windows.Forms.Timer(components);
 			GameTimer = new System.Windows.Forms.Timer(components);
 			SideBar = new Panel();
-			StartGame = new Button();
 			Score = new Label();
+			ToMainMenu = new Button();
+			StartGame = new Button();
+			EnemiesAppearance = new System.Windows.Forms.Timer(components);
 			SideBar.SuspendLayout();
 			SuspendLayout();
-			// 
-			// EnemiesAppearance
-			// 
-			EnemiesAppearance.Interval = 1500;
-			EnemiesAppearance.Tick += EnemiesAppearance_Tick;
 			// 
 			// GameTimer
 			// 
@@ -51,6 +47,7 @@
 			// 
 			SideBar.BackColor = SystemColors.Control;
 			SideBar.Controls.Add(Score);
+			SideBar.Controls.Add(ToMainMenu);
 			SideBar.Controls.Add(StartGame);
 			SideBar.Dock = DockStyle.Left;
 			SideBar.Location = new Point(0, 0);
@@ -58,23 +55,39 @@
 			SideBar.Size = new Size(225, 622);
 			SideBar.TabIndex = 0;
 			// 
+			// Score
+			// 
+			Score.AutoSize = true;
+			Score.Location = new Point(12, 126);
+			Score.Name = "Score";
+			Score.Size = new Size(46, 15);
+			Score.TabIndex = 3;
+			Score.Text = "Бали: 0";
+			// 
+			// ToMainMenu
+			// 
+			ToMainMenu.Location = new Point(12, 74);
+			ToMainMenu.Name = "ToMainMenu";
+			ToMainMenu.Size = new Size(146, 29);
+			ToMainMenu.TabIndex = 2;
+			ToMainMenu.Text = "До головного меню";
+			ToMainMenu.UseVisualStyleBackColor = true;
+			ToMainMenu.Click += ToMainMenu_Click;
+			// 
 			// StartGame
 			// 
-			StartGame.Location = new Point(12, 12);
+			StartGame.Location = new Point(12, 27);
 			StartGame.Name = "StartGame";
-			StartGame.Size = new Size(104, 26);
+			StartGame.Size = new Size(146, 26);
 			StartGame.TabIndex = 0;
 			StartGame.Text = "Почати Гру";
 			StartGame.UseVisualStyleBackColor = true;
 			StartGame.Click += StartGame_Click;
 			// 
-			// Score
+			// EnemiesAppearance
 			// 
-			Score.AutoSize = true;
-			Score.Location = new Point(25, 56);
-			Score.Name = "Score";
-			Score.Size = new Size(0, 15);
-			Score.TabIndex = 1;
+			EnemiesAppearance.Interval = 1500;
+			EnemiesAppearance.Tick += EnemiesAppearance_Tick;
 			// 
 			// GameForm
 			// 
@@ -95,9 +108,10 @@
 		#endregion
 
 		private System.Windows.Forms.Timer GameTimer;
-		private System.Windows.Forms.Timer EnemiesAppearance;
 		private Panel SideBar;
 		private Button StartGame;
+		private Button ToMainMenu;
 		private Label Score;
+		private System.Windows.Forms.Timer EnemiesAppearance;
 	}
 }

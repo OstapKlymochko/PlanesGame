@@ -49,19 +49,5 @@ namespace PlanesGame
 				f.GameOver();
 			}
 		}
-		//public void shoot(object sender)
-		//{
-		//	Form f = sender as Form;
-		//	Missile missile1 = new Missile(this.Location);
-		//	Missile missile2 = new Missile(new Point(this.Location.X + this.Width - 15, this.Location.Y));
-		//	f.Controls.Add(missile1);
-		//	f.Controls.Add(missile2);
-		//	Timer missileOut = new Timer();
-		//	missileOut.Interval = 10;
-		//	MissileEventArgs dir = new MissileEventArgs() {Direction = Directions.up, FHeight = f.Height, timer = missileOut };
-		//	missileOut.Tick += (sender, e) => missile1.move(f, dir);
-		//	missileOut.Tick += (sender, e) => missile2.move(f, dir);
-		//	missileOut.Start();
-		//}
 	}
 }

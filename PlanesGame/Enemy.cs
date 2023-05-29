@@ -46,8 +46,4 @@ namespace PlanesGame
 			}
 		}
 	}
-	//class EnemieMoveArgs: EventArgs
-	//{
- //       public int FHeight { get; init; }
- //   }
 }

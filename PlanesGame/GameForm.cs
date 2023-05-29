@@ -9,7 +9,6 @@ namespace PlanesGame
 		private Random random = new();
 		Player player;
 		public static List<Timer> missileOutTimers = new List<Timer>();
-		public static List<Task> tasks = new List<Task>();
 		private int points = 0;
 		public int Points
 		{
@@ -20,13 +19,13 @@ namespace PlanesGame
 			set
 			{
 				points = value;
-				this.Score.Text  = "Бали: " +points.ToString() + " " + EnemiesAppearance.Interval.ToString();
-				if(points % 30 == 0)
+				this.Score.Text = "Бали: " + points.ToString();
+				if (points % 30 == 0)
 				{
 					this.EnemiesAppearance.Interval = EnemiesAppearance.Interval > 400 ? EnemiesAppearance.Interval - 100 : EnemiesAppearance.Interval;
 				}
-				if (points % 60 == 0) 
-				{ 
+				if (points % 60 == 0)
+				{
 					Enemy.movementSpeed += 2;
 				}
 			}
@@ -44,8 +43,6 @@ namespace PlanesGame
 			{
 				this.Controls.RemoveByKey("enemy");
 			}
-			GameForm.missileOutTimers.ForEach(t => t.Dispose());
-			GameForm.missileOutTimers.Clear();
 			this.EnemiesAppearance.Interval = 1500;
 			Points = 0;
 			Enemy.movementSpeed = 1;
@@ -58,6 +55,7 @@ namespace PlanesGame
 		}
 		public async void GameOver()
 		{
+			Program.MainForm.WriteToFileOnGameOver(this);
 			while (this.Controls.ContainsKey("missile"))
 			{
 				this.Controls.RemoveByKey("missile");
@@ -66,12 +64,12 @@ namespace PlanesGame
 			EnemiesAppearance.Stop();
 			this.KeyDown -= this.Form1_KeyDown;
 			this.SideBar.Visible = true;
+			missileOutTimers.ForEach(t => t.Dispose());
 			missileOutTimers.Clear();
-			//this.SideBar.Focus();
 		}
 		private void Form1_Load(object sender, EventArgs e)
 		{
-			bgStars = new PictureBox[20];
+			bgStars = new PictureBox[30];
 
 			for (int i = 0; i < bgStars.Length; ++i)
 			{
@@ -131,6 +129,13 @@ namespace PlanesGame
 				GameTimer.Tick += (sender, e) => enemy.move(this, e);
 				this.Controls.Add(enemy);
 			}
+		}
+
+		private void ToMainMenu_Click(object sender, EventArgs e)
+		{
+			Program.MainForm.Reset();
+			Program.MainForm.Show();
+			this.Hide();
 		}
 
 		private void StartGame_Click(object sender, EventArgs e)
